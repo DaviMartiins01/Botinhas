@@ -1,6 +1,7 @@
 import Answers
 import discord
 import Token
+import FormatInput
 
 class Client(discord.Client):
     async def on_ready(self):
@@ -31,16 +32,26 @@ class Client(discord.Client):
         #Pesquisa lançamentos do dia
         if message.content.startswith("$d"):
             #CUIDADO COM O ÍNDICE!! Se mudar os caracteres tem q mudar o índice.
-            day_of_week = message.content[2:]
-            #pega os dados da temporada
-            this_seasonAnime = Answers.searchSeasonAnime()
-            #pega os dados dos animes do dia (escolhido pelo usuário) em forma de dicionário (utilizando-se dos dados da temporada)
-            this_dayAnimes = Answers.weeklyAnime(this_seasonAnime, day_of_week)
+            user_day_of_week = message.content[2:]
+            #Formata a mensagem pro padrão da API
+            day_of_week = FormatInput.get_days_of_week(user_day_of_week)
 
-            #For que abre o dicionário criado pela função weeklyAnime e pega os animes do dia.
-            for anime in this_dayAnimes:
-                await message.channel.send(anime["image"])
-                await message.channel.send(f'Title: {anime["title"]}\nScore: {anime["score"]}\nSynopsis: {anime["synopsis"]}')
+            if day_of_week != "Invalid Day":
+                #Pega os dados da temporada
+                this_seasonAnime = Answers.searchSeasonAnime()
+                #pega os dados dos animes do dia (escolhido pelo usuário) em forma de dicionário (utilizando-se dos dados da temporada)
+                this_dayAnimes = Answers.weeklyAnime(this_seasonAnime, day_of_week)
+
+                # For que abre o dicionário criado pela função weeklyAnime e pega os animes do dia.
+                for anime in this_dayAnimes:
+                    await message.channel.send(anime["image"])
+                    await message.channel.send(
+                        f'Title: {anime["title"]}\nScore: {anime["score"]}\nSynopsis: {anime["synopsis"]}')
+            else:
+                await message.channel.send(day_of_week)
+
+
+
         #Pesquisa recomendações de animes
         if message.content.startswith("$r"):
             #CUIDADO COM O ÍNDICE!! Se mudar os caracteres tem q mudar o índice.

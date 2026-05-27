@@ -1,1 +1,1 @@
-Projeto de um bot de animes unsando jikan
+Projeto de um bot de animes usando jikan
