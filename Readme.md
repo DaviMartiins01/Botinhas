@@ -1,0 +1,1 @@
+Projeto de um bot de animes unsando jikan
