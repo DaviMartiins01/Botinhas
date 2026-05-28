@@ -10,9 +10,21 @@ def title_TVAnimesearch_message(anime_title):
         #Cria um embed utilizando as informações dentro da variável search_results
         embed_TVAnime = discord.Embed(
             title= search_results["title"],
-            description= search_results["score"],
             color=discord.Color.dark_blue()
         )
+
+        #Adiciona o field de episódeos
+        embed_TVAnime.add_field(
+            name="Episodes:",
+            value=search_results["episodes"]
+        )
+
+        #Adiciona o field de Score
+        embed_TVAnime.add_field(
+            name = "Score:",
+            value= search_results["score"]
+        )
+
         #Coloca a foto no embed usando a variável search_results
         embed_TVAnime.set_image(url=search_results["images"]["jpg"]["image_url"])
 

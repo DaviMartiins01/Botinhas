@@ -15,15 +15,6 @@ class Client(discord.Client):
         if message.author == self.user:
             return
 
-        if message.content.startswith("$a"):
-            embed = discord.Embed(
-                title="Olá",
-                description="Isso é uma embed",
-                color=discord.Color.green()
-            )
-
-            await message.channel.send(embed=embed)
-
         #Pega uma mensagem de usuário que começa com certos caracteres e responde com outra
         #Pesquisa pelo título do anime
         if message.content.startswith("$t"):
@@ -78,8 +69,6 @@ class Client(discord.Client):
 
             except:
                 await message.channel.send("Não foi possível achar esse anime")
-
-
 
 
 #doideira da documentação
