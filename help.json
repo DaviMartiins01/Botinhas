@@ -1,5 +1,5 @@
 {
-  "help_Title": "Para buscar por título você deve usar o comando $t(Digitar o título que você quer). Ex: $tNaruto",
+  "help_Title": "Para buscar por título de animes (não conta filmes ou ova) você deve usar o comando $t(Digitar o título que você quer). Ex: $tNaruto",
   "help_DayOfWeek": "Para buscar os animes que lançam em certo dia da semana, você deve usar o comando $d (Número correspondente ao dia da semana). Ex: $d1 - Segunda, $d2 - Terça, $d3- Quarta etc.",
   "help_Recommendations": "Para buscar por recomendações de animes, você deve utilizar o comando $r(Título do anime). Ex: $rNaruto"
 }

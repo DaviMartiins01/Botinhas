@@ -6,14 +6,14 @@ base_url = "https://api.jikan.moe/v4"
 def search_TVAnime(anime_name):
     url = f"{base_url}/anime?q={anime_name}"
 
+    #Pega todos os títulos achados com o nome que o usuário colocou
     anime_data = requests.get(url).json()
 
+    #Seleciona apenas animes que saíram na tv e que o score existe.
     for anime_info in anime_data["data"]:
         if anime_info["type"] == "TV":
             if str(anime_info["score"]) != "None":
                 return anime_info
-
-    raise ValueError("Anime não encontrado, talvez seja um ova.")
 
 
 #Função que retorna todos os animes da temporada atual

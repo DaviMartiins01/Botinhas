@@ -2,6 +2,7 @@ import Answers
 import discord
 import Token
 import FormatInput
+import Message
 
 class Client(discord.Client):
     async def on_ready(self):
@@ -14,20 +15,27 @@ class Client(discord.Client):
         if message.author == self.user:
             return
 
+        if message.content.startswith("$a"):
+            embed = discord.Embed(
+                title="Olá",
+                description="Isso é uma embed",
+                color=discord.Color.green()
+            )
+
+            await message.channel.send(embed=embed)
+
         #Pega uma mensagem de usuário que começa com certos caracteres e responde com outra
         #Pesquisa pelo título do anime
         if message.content.startswith("$t"):
-            try:
-                #Tira os caracteres que ativam o bot pra poder fazer a pesquisa só do título
-                #CUIDADO COM O ÍNDICE!! Se mudar os caracteres tem q mudar o índice.
-                anime_title = message.content[2:]
-                search_results = Answers.search_TVAnime(anime_title)
+            #pega só otítulo do anime tirando o $t
+            #CUIDADO COM O ÍNDICE!! Se mudar os caracteres tem q mudar o índice.
+            anime_title = message.content[2:]
 
-                await message.channel.send(f'{search_results["images"]["jpg"]["image_url"]}')
-                await message.channel.send(f'\nTitle: {search_results["title"]}\nScore: {search_results["score"]}\nSynopsis: {search_results["synopsis"]}')
+            #Vai para a função title_TVAnimesearch_message com o parâmetro sendo o título do anime
+            embed_TVAnimeMessage = Message.title_TVAnimesearch_message(anime_title)
 
-            except:
-                await message.channel.send("Não foi possível encontrar o anime, talvez seja um ova.")
+            #Envia a mensagem retornada pela função title_TVAnimesearch_message
+            await message.channel.send(embed=embed_TVAnimeMessage)
 
         #Pesquisa lançamentos do dia
         if message.content.startswith("$d"):
