@@ -10,7 +10,7 @@ class Client(discord.Client):
 
     async def on_message(self, message):
 
-        #impede que o bot responda a se mesmo
+        #Impede que o bot responda a se mesmo
         if message.author == self.user:
             return
 
@@ -18,7 +18,7 @@ class Client(discord.Client):
         #Pesquisa pelo título do anime
         if message.content.startswith("$t"):
             try:
-                #tira os caracteres que ativam o bot pra poder fazer a pesquisa só do título
+                #Tira os caracteres que ativam o bot pra poder fazer a pesquisa só do título
                 #CUIDADO COM O ÍNDICE!! Se mudar os caracteres tem q mudar o índice.
                 anime_title = message.content[2:]
                 search_results = Answers.search_TVAnime(anime_title)
