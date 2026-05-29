@@ -2,9 +2,6 @@ import discord
 import Answers
 import FormatInput
 
-def make_embed_message_TV_Movie():
-    return
-
 def title_TVAnimesearch_message(anime_title):
     try:
         #Vai na função search_TVAnime pegar informações sobre o anime que o usuário pediu
@@ -12,12 +9,12 @@ def title_TVAnimesearch_message(anime_title):
 
         #Cria um embed utilizando as informações dentro da variável search_results
         embed_TVAnime = discord.Embed(
-            title= f"{search_results["title"]}",
+            title= f"**{search_results["title"]}**",
             description=f"⭐ Score: {search_results["score"]} ({search_results["members"]} Members)",
             color=discord.Color.dark_blue()
         )
 
-        #Adiciona o field de episódeos
+        #Adicionando diferentes fields
         embed_TVAnime.add_field(
             name="Synopsis",
             #value=search_results["synopsis"],
@@ -25,7 +22,7 @@ def title_TVAnimesearch_message(anime_title):
             inline=False
         )
 
-        #Adiciona o field de Score
+
         embed_TVAnime.add_field(
             name = "📺 Type",
             value= search_results["type"]
@@ -74,3 +71,32 @@ def title_TVAnimesearch_message(anime_title):
             color=discord.Color.dark_red()
         )
         return embed_Error
+
+def embed_top_recommendation(user_anime):
+
+    #Pega o anime escolhido pelo usuário
+    anime_id = Answers.search_TVAnime(user_anime)
+
+    # Pega as recomendações do anime usando o id dele
+    get_recommendations = Answers.searchRecommendations(anime_id["mal_id"])
+
+    # Separa as 10 primeiras recomendações
+    top_recs = Answers.topRecommendations(get_recommendations)
+
+    embed_recommendation = discord.Embed(
+        title= "🔥 **Top Recommendations**",
+        description=f"Mal users recommendations of animes like '{user_anime}'",
+        color=discord.Color.dark_red()
+    )
+
+    anime_rec_id = 1
+    for recommendation in top_recs:
+        embed_recommendation.add_field(
+            name=f"{anime_rec_id} - {recommendation["title"]} ⭐ ⭐ ⭐ ⭐ 8.2",
+            value=f"Ação, Aventura ",
+            inline=False
+        )
+        anime_rec_id += 1
+
+
+    return embed_recommendation

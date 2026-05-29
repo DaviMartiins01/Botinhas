@@ -61,6 +61,7 @@ def topRecommendations(total_recs):
                 "image" : recommendation["images"]["jpg"]["image_url"],
                 "title" : recommendation["title"]
             }
+
             topRecommendations.append(recs_info)
             x += 1
 

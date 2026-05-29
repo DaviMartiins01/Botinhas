@@ -54,21 +54,14 @@ class Client(discord.Client):
         #Pesquisa recomendações de animes
         if message.content.startswith("$r"):
             #CUIDADO COM O ÍNDICE!! Se mudar os caracteres tem q mudar o índice.
-            recs = message.content[2:]
-            #Pega o anime escolhido pelo usuário
-            anime_id = Answers.search_TVAnime(recs)
-            #Pega as recomendações do anime usando o id dele
-            get_recommendations = Answers.searchRecommendations(anime_id["mal_id"])
-            #Separa as 10 primeiras recomendações
-            top_recs = Answers.topRecommendations(get_recommendations)
-            #Manda as recomendações pro chat
-            try:
-                for recommendation in top_recs:
-                    await message.channel.send(f'\nTitle: {recommendation["title"]}')
-                    await message.channel.send(f'{recommendation["image"]}')
+            user_anime = message.content[2:]
 
-            except:
-                await message.channel.send("Não foi possível achar esse anime")
+            #Pega o embed com as top recomendações
+            embed_top_recs = Message.embed_top_recommendation(user_anime)
+
+            #manda o embed
+            await message.channel.send(embed=embed_top_recs)
+
 
 
 #doideira da documentação
