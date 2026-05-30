@@ -37,16 +37,7 @@ class Client(discord.Client):
             if day_of_week != "Invalid Day":
                 embed_day_of_week = Message.embed_weekly_anime(day_of_week)
                 await message.channel.send(embed=embed_day_of_week)
-                # #Pega os dados da temporada
-                # this_seasonAnime = Answers.searchSeasonAnime()
-                # #pega os dados dos animes do dia (escolhido pelo usuário) em forma de dicionário (utilizando-se dos dados da temporada)
-                # this_dayAnimes = Answers.weeklyAnime(this_seasonAnime, day_of_week)
-                #
-                # # For que abre o dicionário criado pela função weeklyAnime e pega os animes do dia.
-                # for anime in this_dayAnimes:
-                #     await message.channel.send(anime["image"])
-                #     await message.channel.send(
-                #         f'Title: {anime["title"]}\nScore: {anime["score"]}\nSynopsis: {anime["synopsis"]}')
+
             else:
                 await message.channel.send(day_of_week)
 

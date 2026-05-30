@@ -43,25 +43,15 @@ def weeklyAnime(season_data, thisDay):
 #Retorna um dicionários com todos o anime do dia e a suas informações
     return thisDayAnimes
 
-#Retorna todas as recomendações do mal pro anime específico
-def searchRecommendations(id):
+#Retorna as 10 primeiras recomendações do mal do anime que o usuário escolheu
+def get_top_recommendations(id):
     url = f"{base_url}/anime/{id}/recommendations"
     total_recs = requests.get(url).json()
-    return total_recs["data"]
 
-#Separa as 10 primeiras recomendações
-def topRecommendations(total_recs):
-    x = 0
-    topRecommendations = []
+    #pega só as 10 primeiras recomendações
+    return total_recs["data"][:10]
 
-    #Coloca os 10 primeiros títulos da recomendação dentro da lista "topRecommendations"
-    for rec in total_recs:
-        recommendation = rec["entry"]
-        if x < 10:
-            topRecommendations.append(recommendation["title"])
-            x += 1
 
-    return topRecommendations
 
 def get_reaction_id(user_reaction):
     #Linka um dos emojis possíveis que o usuário pode reagir a um id.

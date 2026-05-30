@@ -78,10 +78,7 @@ def embed_top_recommendation(user_anime):
     anime_id = Answers.search_TVAnime(user_anime)
 
     # Pega as recomendações do anime usando o id dele
-    get_recommendations = Answers.searchRecommendations(anime_id["mal_id"])
-
-    # Separa as 10 primeiras recomendações
-    top_recs = Answers.topRecommendations(get_recommendations)
+    top_recs = Answers.get_top_recommendations(anime_id["mal_id"])
 
     embed_recommendation = discord.Embed(
         title= "☰ Top Recommendations",
@@ -94,8 +91,9 @@ def embed_top_recommendation(user_anime):
 
     #cria fields no embed pra cada recomendação de anime
     for recommendation in top_recs:
+        recommendation = recommendation["entry"]
         embed_recommendation.add_field(
-            name=f"{anime_rec_Emoji[anime_rec_emoji_id]} {recommendation} ",
+            name=f"{anime_rec_Emoji[anime_rec_emoji_id]} {recommendation["title"]} ",
             value="",
             inline=False
         )
