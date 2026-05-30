@@ -57,12 +57,19 @@ def topRecommendations(total_recs):
     for rec in total_recs:
         recommendation = rec["entry"]
         if x < 10:
-            recs_info =  {
-                "image" : recommendation["images"]["jpg"]["image_url"],
-                "title" : recommendation["title"]
-            }
-
-            topRecommendations.append(recs_info)
+            topRecommendations.append(recommendation["title"])
             x += 1
 
     return topRecommendations
+
+def get_reaction_id(user_reaction):
+    #Linka um dos emojis possíveis que o usuário pode reagir a um id.
+    anime_reaction_emoji_id = {"1️⃣": "0", "2️⃣": "1", "3️⃣": "2", "4️⃣": "3", "5️⃣": "4", "6️⃣": "5", "7️⃣": "6", "8️⃣": "7", "9️⃣": "8", "🔟":"9"}
+
+    for anime_emoji in anime_reaction_emoji_id.items():
+        #faz a comparação dos emojis
+        if user_reaction == anime_emoji[0]:
+            #retorna o id
+            return anime_emoji[1]
+
+    return -1

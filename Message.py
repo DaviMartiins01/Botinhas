@@ -10,7 +10,7 @@ def title_TVAnimesearch_message(anime_title):
         #Cria um embed utilizando as informações dentro da variável search_results
         embed_TVAnime = discord.Embed(
             title= f"**{search_results["title"]}**",
-            description=f"⭐ Score: {search_results["score"]} ({search_results["members"]} Members)",
+            description=f"⭐ {search_results["score"]} ({search_results["members"]} Members)",
             color=discord.Color.dark_blue()
         )
 
@@ -84,19 +84,44 @@ def embed_top_recommendation(user_anime):
     top_recs = Answers.topRecommendations(get_recommendations)
 
     embed_recommendation = discord.Embed(
-        title= "🔥 **Top Recommendations**",
-        description=f"Mal users recommendations of animes like '{user_anime}'",
-        color=discord.Color.dark_red()
+        title= "☰ Top Recommendations",
+        description=f"Mal users recommendations of animes like {anime_id["title"]}",
+        color=discord.Color.dark_blue()
     )
 
-    anime_rec_id = 1
+    anime_rec_Emoji = ["1️⃣ ","2️⃣ ","3️⃣ ","4️⃣ ","5️⃣ ","6️⃣ ","7️⃣ ","8️⃣ ","9️⃣ ","🔟"]
+    anime_rec_emoji_id = 0
+
     for recommendation in top_recs:
         embed_recommendation.add_field(
-            name=f"{anime_rec_id} - {recommendation["title"]} ⭐ ⭐ ⭐ ⭐ 8.2",
-            value=f"Ação, Aventura ",
+            name=f"{anime_rec_Emoji[anime_rec_emoji_id]} {recommendation} ",
+            value="",
             inline=False
         )
-        anime_rec_id += 1
+        anime_rec_emoji_id += 1
 
 
     return embed_recommendation
+
+def message_for_top_recommendation_reaction(message_info, user_reaction):
+    # Dentro da mensage_info pega o primeiro embed. (Só tem 1 embed, mas tem que colocar pra pegar o primeiro mesmo assim)
+    embed_info = message_info.embeds[0]
+
+    #Pega informações de todos os fields no embed
+    fields_info = embed_info.fields
+
+    # pega o id correspondente ao field da reação do usuário
+    field_id = int(Answers.get_reaction_id(user_reaction))
+
+    #Verifica se o id é válido, se não for significa que reagiram com um emoji nada a ver
+    if(field_id != -1):
+        #Pega o título do anime que também é o nome do field
+        anime_title = fields_info[field_id].name
+
+        #faz a busca das informações do do anime pelo título e retorna um embed
+        embed_reaction_message = title_TVAnimesearch_message(anime_title)
+
+        return embed_reaction_message
+
+    else:
+        return None

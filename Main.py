@@ -15,8 +15,7 @@ class Client(discord.Client):
         if message.author == self.user:
             return
 
-        #Pega uma mensagem de usuário que começa com certos caracteres e responde com outra
-        #Pesquisa pelo título do anime
+        #Pesquisa pelo título do anime que o usurário colocou
         if message.content.startswith("$t"):
             #pega só otítulo do anime tirando o $t
             #CUIDADO COM O ÍNDICE!! Se mudar os caracteres tem q mudar o índice.
@@ -61,6 +60,31 @@ class Client(discord.Client):
 
             #manda o embed
             await message.channel.send(embed=embed_top_recs)
+
+
+    #Pega as reações (Emojis) dos usuários
+    async def on_raw_reaction_add(self, payload):
+        # pega a reação do usuário
+        user_reaction = payload.emoji.name
+
+        #pega o canal onde a reação foi feita. Ex: Geral, Músicas etc.
+        get_channel = self.get_channel(payload.channel_id)
+
+        #pega a menssagem(embed) que o usuário reagiu dentro do canal
+        message_info = await get_channel.fetch_message(payload.message_id)
+
+        embed_reaction_message = Message.message_for_top_recommendation_reaction(message_info, user_reaction)
+
+        if(embed_reaction_message != None):
+            await message_info.channel.send(embed=embed_reaction_message)
+
+
+
+
+
+
+
+
 
 
 
