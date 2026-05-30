@@ -54,6 +54,7 @@ def topRecommendations(total_recs):
     x = 0
     topRecommendations = []
 
+    #Coloca os 10 primeiros títulos da recomendação dentro da lista "topRecommendations"
     for rec in total_recs:
         recommendation = rec["entry"]
         if x < 10:

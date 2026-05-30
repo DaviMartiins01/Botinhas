@@ -73,8 +73,10 @@ class Client(discord.Client):
         #pega a menssagem(embed) que o usuário reagiu dentro do canal
         message_info = await get_channel.fetch_message(payload.message_id)
 
+        #recebe o embed pra mandar a mensagem no discord
         embed_reaction_message = Message.message_for_top_recommendation_reaction(message_info, user_reaction)
 
+        #Verifica se realmente é um embed antes de mandar
         if(embed_reaction_message != None):
             await message_info.channel.send(embed=embed_reaction_message)
 

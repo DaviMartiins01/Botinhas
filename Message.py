@@ -92,6 +92,7 @@ def embed_top_recommendation(user_anime):
     anime_rec_Emoji = ["1️⃣ ","2️⃣ ","3️⃣ ","4️⃣ ","5️⃣ ","6️⃣ ","7️⃣ ","8️⃣ ","9️⃣ ","🔟"]
     anime_rec_emoji_id = 0
 
+    #cria fields no embed pra cada recomendação de anime
     for recommendation in top_recs:
         embed_recommendation.add_field(
             name=f"{anime_rec_Emoji[anime_rec_emoji_id]} {recommendation} ",
@@ -100,6 +101,7 @@ def embed_top_recommendation(user_anime):
         )
         anime_rec_emoji_id += 1
 
+    embed_recommendation.set_footer(text="Note: React with the number of the anime you want to now more.")
 
     return embed_recommendation
 
