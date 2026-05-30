@@ -22,7 +22,7 @@ class Client(discord.Client):
             anime_title = message.content[2:]
 
             #Vai para a função title_TVAnimesearch_message com o parâmetro sendo o título do anime
-            embed_TVAnimeMessage = Message.title_TVAnimesearch_message(anime_title)
+            embed_TVAnimeMessage = Message.embed_TVAnimesearch_message(anime_title)
 
             #Envia a mensagem retornada pela função title_TVAnimesearch_message
             await message.channel.send(embed=embed_TVAnimeMessage)
@@ -35,16 +35,18 @@ class Client(discord.Client):
             day_of_week = FormatInput.get_days_of_week(user_day_of_week)
 
             if day_of_week != "Invalid Day":
-                #Pega os dados da temporada
-                this_seasonAnime = Answers.searchSeasonAnime()
-                #pega os dados dos animes do dia (escolhido pelo usuário) em forma de dicionário (utilizando-se dos dados da temporada)
-                this_dayAnimes = Answers.weeklyAnime(this_seasonAnime, day_of_week)
-
-                # For que abre o dicionário criado pela função weeklyAnime e pega os animes do dia.
-                for anime in this_dayAnimes:
-                    await message.channel.send(anime["image"])
-                    await message.channel.send(
-                        f'Title: {anime["title"]}\nScore: {anime["score"]}\nSynopsis: {anime["synopsis"]}')
+                embed_day_of_week = Message.embed_weekly_anime(day_of_week)
+                await message.channel.send(embed=embed_day_of_week)
+                # #Pega os dados da temporada
+                # this_seasonAnime = Answers.searchSeasonAnime()
+                # #pega os dados dos animes do dia (escolhido pelo usuário) em forma de dicionário (utilizando-se dos dados da temporada)
+                # this_dayAnimes = Answers.weeklyAnime(this_seasonAnime, day_of_week)
+                #
+                # # For que abre o dicionário criado pela função weeklyAnime e pega os animes do dia.
+                # for anime in this_dayAnimes:
+                #     await message.channel.send(anime["image"])
+                #     await message.channel.send(
+                #         f'Title: {anime["title"]}\nScore: {anime["score"]}\nSynopsis: {anime["synopsis"]}')
             else:
                 await message.channel.send(day_of_week)
 
@@ -79,16 +81,6 @@ class Client(discord.Client):
         #Verifica se realmente é um embed antes de mandar
         if(embed_reaction_message != None):
             await message_info.channel.send(embed=embed_reaction_message)
-
-
-
-
-
-
-
-
-
-
 
 #doideira da documentação
 intents = discord.Intents.default()

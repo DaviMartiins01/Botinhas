@@ -2,7 +2,7 @@ import discord
 import Answers
 import FormatInput
 
-def title_TVAnimesearch_message(anime_title):
+def embed_TVAnimesearch_message(anime_title):
     try:
         #Vai na função search_TVAnime pegar informações sobre o anime que o usuário pediu
         search_results = Answers.search_TVAnime(anime_title)
@@ -11,7 +11,7 @@ def title_TVAnimesearch_message(anime_title):
         embed_TVAnime = discord.Embed(
             title= f"**{search_results["title"]}**",
             description=f"⭐ {search_results["score"]} ({search_results["members"]} Members)",
-            color=discord.Color.dark_blue()
+            color=discord.Color.dark_grey()
         )
 
         #Adicionando diferentes fields
@@ -105,6 +105,35 @@ def embed_top_recommendation(user_anime):
 
     return embed_recommendation
 
+def embed_weekly_anime(day_of_week):
+    # Pega os dados da temporada
+    this_seasonAnime = Answers.searchSeasonAnime()
+    # pega os dados dos animes do dia (escolhido pelo usuário) em forma de dicionário (utilizando-se dos dados da temporada)
+    this_dayAnimes = Answers.weeklyAnime(this_seasonAnime, day_of_week)
+
+    embed_weekly_anime = discord.Embed(
+        #[:-1] só tira o "s" do final da string.
+        title= f"☰ {day_of_week[:-1]} Anime Releases",
+        color=discord.Color.dark_blue()
+    )
+
+    anime_rec_Emoji = ["1️⃣ ", "2️⃣ ", "3️⃣ ", "4️⃣ ", "5️⃣ ", "6️⃣ ", "7️⃣ ", "8️⃣ ", "9️⃣ ", "🔟"]
+    anime_rec_emoji_id = 0
+
+    # For que abre o dicionário criado pela função weeklyAnime e pega os animes do dia.
+    for anime in this_dayAnimes:
+        embed_weekly_anime.add_field(
+            name=f"{anime_rec_Emoji[anime_rec_emoji_id]} {anime["title"]}",
+            value="",
+            inline=False
+        )
+
+        anime_rec_emoji_id += 1
+
+    embed_weekly_anime.set_footer(text="Note: React with the number of the anime you want to now more.")
+
+    return embed_weekly_anime
+
 def message_for_top_recommendation_reaction(message_info, user_reaction):
     # Dentro da mensage_info pega o primeiro embed. (Só tem 1 embed, mas tem que colocar pra pegar o primeiro mesmo assim)
     embed_info = message_info.embeds[0]
@@ -121,7 +150,7 @@ def message_for_top_recommendation_reaction(message_info, user_reaction):
         anime_title = fields_info[field_id].name
 
         #faz a busca das informações do do anime pelo título e retorna um embed
-        embed_reaction_message = title_TVAnimesearch_message(anime_title)
+        embed_reaction_message = embed_TVAnimesearch_message(anime_title)
 
         return embed_reaction_message
 
