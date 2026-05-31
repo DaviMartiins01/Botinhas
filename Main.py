@@ -3,6 +3,7 @@ import discord
 import Token
 import FormatInput
 import Message
+import time
 
 class Client(discord.Client):
     async def on_ready(self):
@@ -35,7 +36,8 @@ class Client(discord.Client):
             day_of_week = FormatInput.get_days_of_week(user_day_of_week)
 
             if day_of_week != "Invalid Day":
-                embed_day_of_week = Message.embed_weekly_anime(day_of_week)
+                embed, list_of_animes = Message.embed_weekly_anime(day_of_week)
+                embed_day_of_week = Message.make_reaction_embed(embed, list_of_animes)
                 await message.channel.send(embed=embed_day_of_week)
 
             else:
@@ -48,8 +50,11 @@ class Client(discord.Client):
             #CUIDADO COM O ÍNDICE!! Se mudar os caracteres tem q mudar o índice.
             user_anime = message.content[2:]
 
-            #Pega o embed com as top recomendações
-            embed_top_recs = Message.embed_top_recommendation(user_anime)
+            #Pega o embed (simples) e a lista de animes recomendados
+            embed, list_of_animes = Message.embed_top_recommendation(user_anime)
+
+            #Transforma o embed simples no embed final com os emojis para reagir
+            embed_top_recs = Message.make_reaction_embed(embed, list_of_animes)
 
             #manda o embed
             await message.channel.send(embed=embed_top_recs)
@@ -57,6 +62,7 @@ class Client(discord.Client):
 
     #Pega as reações (Emojis) dos usuários
     async def on_raw_reaction_add(self, payload):
+        start = time.time()
         # pega a reação do usuário
         user_reaction = payload.emoji.name
 
@@ -66,8 +72,10 @@ class Client(discord.Client):
         #pega a menssagem(embed) que o usuário reagiu dentro do canal
         message_info = await get_channel.fetch_message(payload.message_id)
 
+        print(f"Tempo da Discord API: {time.time() - start:.2f} segundos")
+
         #recebe o embed pra mandar a mensagem no discord
-        embed_reaction_message = Message.message_for_top_recommendation_reaction(message_info, user_reaction)
+        embed_reaction_message = Message.message_for_reaction(message_info, user_reaction)
 
         #Verifica se realmente é um embed antes de mandar
         if(embed_reaction_message != None):

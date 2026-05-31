@@ -78,7 +78,7 @@ def embed_top_recommendation(user_anime):
     anime_id = Answers.search_TVAnime(user_anime)
 
     # Pega as recomendações do anime usando o id dele
-    top_recs = Answers.get_top_recommendations(anime_id["mal_id"])
+    list_top_recs = Answers.get_top_recommendations(anime_id["mal_id"])
 
     embed_recommendation = discord.Embed(
         title= "☰ Top Recommendations",
@@ -86,28 +86,13 @@ def embed_top_recommendation(user_anime):
         color=discord.Color.dark_blue()
     )
 
-    anime_rec_Emoji = ["1️⃣ ","2️⃣ ","3️⃣ ","4️⃣ ","5️⃣ ","6️⃣ ","7️⃣ ","8️⃣ ","9️⃣ ","🔟"]
-    anime_rec_emoji_id = 0
-
-    #cria fields no embed pra cada recomendação de anime
-    for recommendation in top_recs:
-        recommendation = recommendation["entry"]
-        embed_recommendation.add_field(
-            name=f"{anime_rec_Emoji[anime_rec_emoji_id]} {recommendation["title"]} ",
-            value="",
-            inline=False
-        )
-        anime_rec_emoji_id += 1
-
-    embed_recommendation.set_footer(text="Note: React with the number of the anime you want to now more.")
-
-    return embed_recommendation
+    return embed_recommendation, list_top_recs
 
 def embed_weekly_anime(day_of_week):
     # Pega os dados da temporada
     this_seasonAnime = Answers.searchSeasonAnime()
     # pega os dados dos animes do dia (escolhido pelo usuário) em forma de dicionário (utilizando-se dos dados da temporada)
-    this_dayAnimes = Answers.weeklyAnime(this_seasonAnime, day_of_week)
+    list_this_dayAnimes = Answers.weeklyAnime(this_seasonAnime, day_of_week)
 
     embed_weekly_anime = discord.Embed(
         #[:-1] só tira o "s" do final da string.
@@ -115,24 +100,30 @@ def embed_weekly_anime(day_of_week):
         color=discord.Color.dark_blue()
     )
 
+    return embed_weekly_anime, list_this_dayAnimes
+
+def make_reaction_embed(embed, list_of_animes):
     anime_rec_Emoji = ["1️⃣ ", "2️⃣ ", "3️⃣ ", "4️⃣ ", "5️⃣ ", "6️⃣ ", "7️⃣ ", "8️⃣ ", "9️⃣ ", "🔟"]
     anime_rec_emoji_id = 0
 
     # For que abre o dicionário criado pela função weeklyAnime e pega os animes do dia.
-    for anime in this_dayAnimes:
-        embed_weekly_anime.add_field(
-            name=f"{anime_rec_Emoji[anime_rec_emoji_id]} {anime["title"]}",
+    for anime in list_of_animes:
+        embed.add_field(
+            #mais tarde se o webhook funcionar tenho que colocar a imagem aqui
+            #Lembrando que da pra mudar a forma que eu pego pelo ["image"] no weeklyAnime pra ficar igual no recommendations
+            #pra fazer isso é só mudar no for do weeklyAnime lá em Answers.py
+            name=f"{anime_rec_Emoji[anime_rec_emoji_id]} {anime.get("entry", anime)["title"]}",
             value="",
             inline=False
         )
 
         anime_rec_emoji_id += 1
 
-    embed_weekly_anime.set_footer(text="Note: React with the number of the anime you want to now more.")
+    embed.set_footer(text="Note: React with the number of the anime you want to now more.")
 
-    return embed_weekly_anime
+    return embed
 
-def message_for_top_recommendation_reaction(message_info, user_reaction):
+def message_for_reaction(message_info, user_reaction):
     # Dentro da mensage_info pega o primeiro embed. (Só tem 1 embed, mas tem que colocar pra pegar o primeiro mesmo assim)
     embed_info = message_info.embeds[0]
 
