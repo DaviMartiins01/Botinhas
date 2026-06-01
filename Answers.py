@@ -1,5 +1,6 @@
 import requests
 import time
+
 base_url = "https://api.jikan.moe/v4"
 
 #Função que encontra o anime q saiu na TV pelo nome

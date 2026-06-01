@@ -1,4 +1,3 @@
-import Answers
 import discord
 import Token
 import FormatInput

@@ -11,14 +11,14 @@ def embed_TVAnimesearch_message(anime_title):
         embed_TVAnime = discord.Embed(
             title= f"**{search_results["title"]}**",
             description=f"⭐ {search_results["score"]} ({search_results["members"]} Members)",
+            url=search_results["url"],
             color=discord.Color.dark_grey()
         )
 
         #Adicionando diferentes fields
         embed_TVAnime.add_field(
             name="Synopsis",
-            #value=search_results["synopsis"],
-            value= "Finge que tem uma sinopse muito maneira aqui, daquelas que te fazem querer largar tudo só pra descobrir o que acontece no próximo capítulo. Uma história cheia de mistério, personagens memoráveis, reviravoltas inesperadas e momentos que vão te fazer rir, sofrer e ficar olhando pro teto depois. Tem ação, emoção, talvez um trauma psicológico leve, e aquela sensação de ‘só mais um capítulo’ às três da manhã. Enfim… imagina a melhor sinopse possível. É essa.",
+            value= FormatInput.format_anime_synopsis(search_results["synopsis"]),
             inline=False
         )
 
