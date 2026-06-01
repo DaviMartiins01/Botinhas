@@ -9,6 +9,16 @@ def get_days_of_week(day):
     else:
         return "Invalid Day"
 
+def format_number_of_members(users):
+    if(users >= 1_000_000):
+        return f"{users / 1_000_000:.1f}M".replace(".0", "")
+
+    if (users >= 1_000):
+        return f"{users / 1_000:.1f}K".replace(".0", "")
+
+    return users
+
+
 def format_anime_synopsis(anime_synopsis, caracter_limit=460):
     #Corta a string em um limite de caracter
     anime_synopsis = anime_synopsis[:caracter_limit]
@@ -28,6 +38,6 @@ def format_anime_synopsis(anime_synopsis, caracter_limit=460):
         #Corta a string pra parar no último espaço do texto (assim não para no meio de nenhuma palavra)
         anime_synopsis[0] = anime_synopsis[0][:new_caracter_limit]
 
-        #adiciona ... no final porque o texto vai ser quebrado antes de finalizar e retorna a sinopse
+        #adiciona "..." no final porque o texto vai ser quebrado antes de finalizar e retorna a sinopse
         anime_synopsis[0] += "..."
         return anime_synopsis[0]

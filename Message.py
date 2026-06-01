@@ -10,9 +10,9 @@ def embed_TVAnimesearch_message(anime_title):
         #Cria um embed utilizando as informações dentro da variável search_results
         embed_TVAnime = discord.Embed(
             title= f"**{search_results["title"]}**",
-            description=f"⭐ {search_results["score"]} ({search_results["members"]} Members)",
+            description=f"⭐ {search_results["score"]} ({FormatInput.format_number_of_members(search_results["scored_by"])} Users)",
             url=search_results["url"],
-            color=discord.Color.dark_grey()
+            color=discord.Color.dark_blue()
         )
 
         #Adicionando diferentes fields
