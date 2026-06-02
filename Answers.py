@@ -1,4 +1,5 @@
 import requests
+import ReadingJson
 import time
 
 base_url = "https://api.jikan.moe/v4"
@@ -58,7 +59,7 @@ def get_top_recommendations(anime_id, limit=10):
 
 def get_reaction_id(user_reaction):
     #Linka um dos emojis possíveis que o usuário pode reagir a um id.
-    anime_reaction_emoji_id = {"1️⃣": "0", "2️⃣": "1", "3️⃣": "2", "4️⃣": "3", "5️⃣": "4", "6️⃣": "5", "7️⃣": "6", "8️⃣": "7", "9️⃣": "8", "🔟":"9"}
+    anime_reaction_emoji_id = ReadingJson.Emoji_Reaction("dictionary")
 
     for anime_emoji in anime_reaction_emoji_id.items():
         #faz a comparação dos emojis

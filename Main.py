@@ -1,5 +1,5 @@
 import discord
-import Token
+import ReadingJson
 import FormatInput
 import Message
 import time
@@ -37,7 +37,12 @@ class Client(discord.Client):
             if day_of_week != "Invalid Day":
                 embed, list_of_animes = Message.embed_weekly_anime(day_of_week)
                 embed_day_of_week = Message.make_reaction_embed(embed, list_of_animes)
-                await message.channel.send(embed=embed_day_of_week)
+                bot_message = await message.channel.send(embed=embed_day_of_week)
+
+                anime_reaction_emoji_id = ReadingJson.Emoji_Reaction("list")
+
+                for emoji_anime in anime_reaction_emoji_id[:len(list_of_animes)]:
+                    await bot_message.add_reaction(emoji_anime)
 
             else:
                 await message.channel.send(day_of_week)
@@ -56,11 +61,20 @@ class Client(discord.Client):
             embed_top_recs = Message.make_reaction_embed(embed, list_of_animes)
 
             #manda o embed
-            await message.channel.send(embed=embed_top_recs)
+            bot_message = await message.channel.send(embed=embed_top_recs)
+
+            anime_reaction_emoji_id = ReadingJson.Emoji_Reaction("list")
+
+            for emoji_anime in anime_reaction_emoji_id[:len(list_of_animes)]:
+                await bot_message.add_reaction(emoji_anime)
 
 
     #Pega as reações (Emojis) dos usuários
     async def on_raw_reaction_add(self, payload):
+
+        if payload.user_id == client.user.id:
+            return
+
         start = time.time()
         # pega a reação do usuário
         user_reaction = payload.emoji.name
@@ -80,9 +94,11 @@ class Client(discord.Client):
         if(embed_reaction_message != None):
             await message_info.channel.send(embed=embed_reaction_message)
 
+
 #doideira da documentação
 intents = discord.Intents.default()
 intents.message_content = True
+intents.reactions = True
 
 client = Client(intents=intents)
-client.run(Token.MyToken())
+client.run(ReadingJson.MyToken())

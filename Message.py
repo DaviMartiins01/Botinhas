@@ -1,5 +1,6 @@
 import discord
 import Answers
+import ReadingJson
 import FormatInput
 
 def embed_TVAnimesearch_message(anime_title):
@@ -103,7 +104,7 @@ def embed_weekly_anime(day_of_week):
     return embed_weekly_anime, list_this_dayAnimes
 
 def make_reaction_embed(embed, list_of_animes):
-    anime_rec_Emoji = ["1️⃣ ", "2️⃣ ", "3️⃣ ", "4️⃣ ", "5️⃣ ", "6️⃣ ", "7️⃣ ", "8️⃣ ", "9️⃣ ", "🔟"]
+    anime_rec_Emoji = ReadingJson.Emoji_Reaction("list")
     anime_rec_emoji_id = 0
 
     # For que abre o dicionário criado pela função weeklyAnime e pega os animes do dia.
